@@ -10,6 +10,7 @@
 
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
+#include <ESP8266WebServer.h>
 
 // User has to set the WiFi credentials in wifi.h
 #include "wifi.h"
@@ -21,6 +22,9 @@
 // Device will be reachable at MDNS_NAME.local
 #define MDNS_NAME "ESP8266"
 
+// Global objects
+ESP8266WebServer webServer(80);
+
 void setup() {
   if(SERIAL_DEBUG) {
     Serial.begin(9600);
@@ -28,9 +32,11 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   startWifi(WFSSID, WFPSK);
   startMDNS(MDNS_NAME);
+  startWebServer();
   blinkStatus(100, 10);
 }
 
 void loop() {
+  webServer.handleClient();
   MDNS.update();
 }
