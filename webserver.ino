@@ -2,8 +2,21 @@
 void handleRoot() {
   digitalWrite(LED_BUILTIN, HIGH);
   String replyContent = MDNS_NAME;
+  replyContent += ".local\n\nHostname : ";
+  replyContent += WiFi.hostname();
   replyContent += "\nIP : ";
   replyContent += WiFi.localIP().toString();
+  replyContent += "\nSubnet mask : ";
+  replyContent += WiFi.subnetMask().toString();
+  replyContent += "\nGateway : ";
+  replyContent += WiFi.gatewayIP().toString();
+  replyContent += "\nDNS : ";
+  replyContent += WiFi.dnsIP().toString();
+  replyContent += "\nWiFi : ";
+  replyContent += WiFi.SSID();
+  replyContent += "\nRSSI : ";
+  replyContent += WiFi.RSSI();
+  replyContent += " dBm";
   webServer.send(200, "text/plain", replyContent);
   digitalWrite(LED_BUILTIN, LOW);
 }
