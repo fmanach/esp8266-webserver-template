@@ -30,13 +30,11 @@ void setup() {
     Serial.begin(9600);
   }
   pinMode(LED_BUILTIN, OUTPUT);
-  startWifi(WFSSID, WFPSK);
-  startMDNS(MDNS_NAME);
-  startWebServer();
-  blinkStatus(100, 10);
+  startDevice();
 }
 
 void loop() {
+  keepWifiAlive();
   webServer.handleClient();
   MDNS.update();
 }

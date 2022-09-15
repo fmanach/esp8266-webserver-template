@@ -1,3 +1,11 @@
+// Function starting the device by calling starter functions
+void startDevice() {
+  startWifi(WFSSID, WFPSK);
+  startMDNS(MDNS_NAME);
+  startWebServer();
+  blinkStatus(100, 10);
+}
+
 // Blink the built-in LED to indicate the status of operations
 void blinkStatus(int blinkDelay, int blinkNumber) {
   int blinkCount;
@@ -30,5 +38,15 @@ void startMDNS(char* mdnsName) {
     if(SERIAL_DEBUG) {
       Serial.println("mDNS OK");
     }
+  }
+}
+
+// Check for disconnection and restart the init process  
+void keepWifiAlive() {
+  if(!WiFi.isConnected()) {
+    if(SERIAL_DEBUG) {
+      Serial.println("WiFi KO");
+    }
+    startDevice();
   }
 }
